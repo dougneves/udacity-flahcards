@@ -56,6 +56,19 @@ const StyledTitle = styled.Text`
   font-size: 18px;
 `;
 
+const CancelBtn = styled.TouchableOpacity`
+  background: #666666;
+  padding: 20px;
+  min-width: 90%;
+  align-items: center;
+  margin: 5px;
+`;
+
+const CancelBtnText = styled.Text`
+  color: #fff;
+  font-size: 24px;
+`;
+
 export default class App extends React.Component {
   state = {
     pergunta: '',
@@ -66,25 +79,42 @@ export default class App extends React.Component {
   };
 
   onAddPress = () => {
-    if (!this.state.deckName || this.state.deckName.length > 15)
+    if (!this.state.pergunta || this.state.pergunta.length > 44)
       return Alert.alert(
         'Campo Inválido',
-        'O nome do baralho precisa ter entre 1 e 15 caracteres',
+        'A pergunta precisa ter entre 1 e 44 caracteres',
+        [{ text: 'OK' }],
+        { cancelable: true }
+      );
+    if (!this.state.resposta || this.state.resposta.length > 144)
+      return Alert.alert(
+        'Campo Inválido',
+        'A resposta precisa ter entre 1 e 144 caracteres',
         [{ text: 'OK' }],
         { cancelable: true }
       );
 
-    saveDeckTitle(this.state.deckName).then(() => {
-      this.props.navigation.state.params.onGoBack();
-      this.props.navigation.goBack();
-    });
+    addCardToDeck(this.props.navigation.state.params.title, {
+      ...this.state
+    })
+      .then(() => {
+        this.props.navigation.state.params.goBack();
+        this.props.navigation.goBack();
+      })
+      .catch(err => {
+        console.error(err);
+        return Alert.alert('Erro', err.message, [{ text: 'OK' }], {
+          cancelable: true
+        });
+      });
   };
 
+  onCancelPress = () => this.props.navigation.goBack();
   onPerguntaChanged = pergunta => {
-    this.setState({ pergunta });
+    if (pergunta.length <= 44) this.setState({ pergunta });
   };
   onRespostaChanged = resposta => {
-    this.setState({ resposta });
+    if (resposta.length <= 144) this.setState({ resposta });
   };
 
   render = () => (
@@ -107,6 +137,9 @@ export default class App extends React.Component {
       <AddBtn onPress={this.onAddPress}>
         <AddBtnText>Criar</AddBtnText>
       </AddBtn>
+      <CancelBtn onPress={this.onCancelPress}>
+        <CancelBtnText>Cancelar</CancelBtnText>
+      </CancelBtn>
     </MainView>
   );
 }

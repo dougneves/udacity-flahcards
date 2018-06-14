@@ -77,24 +77,38 @@ const CancelBtnText = styled.Text`
 `;
 
 export default class App extends React.Component {
+  state = { cardsCount: '...' };
   static navigationOptions = ({ navigation }) => {
     return { title: navigation.state.params.title };
   };
 
+  componentDidMount = () => this.refresh();
+
+  refresh = () =>
+    getDeck(this.props.navigation.state.params.title)
+      .then(deck => this.setState({ cardsCount: deck.questions.length }))
+      .catch(err => console.error(err));
+
   addCard = () =>
     this.props.navigation.navigate('AddCard', {
+      title: this.props.navigation.state.params.title,
+      goBack: () => this.refresh()
+    });
+  playDeck = () =>
+    this.props.navigation.navigate('PlayDeck', {
       title: this.props.navigation.state.params.title
     });
+
   onCancelPress = () => this.props.navigation.goBack();
 
   render = () => (
     <MainView>
       <Title>{this.props.navigation.state.params.title}</Title>
-      <CardsCount>287 cartas</CardsCount>
+      <CardsCount>{this.state.cardsCount} cartas</CardsCount>
       <AddBtn onPress={this.addCard}>
         <AddBtnText>Adicionar carta</AddBtnText>
       </AddBtn>
-      <PlayBtn>
+      <PlayBtn onPress={this.playDeck}>
         <PlayBtnText>Jogar</PlayBtnText>
       </PlayBtn>
       <CancelBtn onPress={this.onCancelPress}>

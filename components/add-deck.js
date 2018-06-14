@@ -74,10 +74,14 @@ export default class App extends React.Component {
         { cancelable: true }
       );
 
-    saveDeckTitle(this.state.deckName).then(() => {
-      this.props.navigation.state.params.onGoBack();
-      this.props.navigation.goBack();
-    });
+    saveDeckTitle(this.state.deckName)
+      .then(() => {
+        this.props.navigation.state.params.onGoBack();
+        this.props.navigation.goBack();
+      })
+      .catch(err =>
+        Alert.alert('Erro', err.message, [{ text: 'OK' }], { cancelable: true })
+      );
   };
 
   onCancelPress = () => this.props.navigation.goBack();

@@ -57,7 +57,6 @@ export default class App extends React.Component {
   };
 
   refresh = () => {
-    console.log('refreshing...');
     getDecks().then(decks => {
       if (decks) this.setState({ deckList: Object.values(decks) });
     });
