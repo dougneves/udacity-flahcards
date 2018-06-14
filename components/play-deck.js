@@ -115,9 +115,6 @@ export default class App extends React.Component {
 
   componentDidMount = () => {
     this.refresh();
-    clearLocalNotifications()
-      .then(setLocalNotification)
-      .catch(err => console.error(err));
   };
 
   refresh = () =>
@@ -179,6 +176,11 @@ export default class App extends React.Component {
 
   showResult = () => {
     if (this.state.cardsCount > 0) {
+      //usuario completou um jogo, apaga o alerta de hoje e cria novamente para amanhã
+      clearLocalNotifications()
+        .then(setLocalNotification)
+        .catch(err => console.error(err));
+
       const correctPercent = Math.round(
         this.state.corrects / this.state.cardsCount * 100
       );
