@@ -179,7 +179,9 @@ export default class App extends React.Component {
 
   showResult = () => {
     if (this.state.cardsCount > 0) {
-      const correctPercent = this.state.corrects / this.state.cardsCount * 100;
+      const correctPercent = Math.round(
+        this.state.corrects / this.state.cardsCount * 100
+      );
       return (
         <InsideView>
           <QuestionText>Fim de jogo!</QuestionText>
