@@ -98,15 +98,16 @@ const CancelBtnText = styled.Text`
   font-size: 24px;
 `;
 
+const DEFAULT_STATE = {
+  questions: [],
+  cardsCount: 0,
+  corrects: 0,
+  wrongs: 0,
+  currentIndex: 0,
+  showQuestion: true
+};
 export default class App extends React.Component {
-  state = {
-    questions: [],
-    cardsCount: 0,
-    corrects: 0,
-    wrongs: 0,
-    currentIndex: 0,
-    showQuestion: true
-  };
+  state = { ...DEFAULT_STATE };
 
   static navigationOptions = ({ navigation }) => {
     return { title: navigation.state.params.title };
@@ -141,6 +142,10 @@ export default class App extends React.Component {
       wrongs: this.state.wrongs + 1,
       currentIndex: this.state.currentIndex + 1
     });
+  onRePlay = () => {
+    this.setState({ ...DEFAULT_STATE });
+    this.refresh();
+  };
 
   renderQuestion = question => (
     <InsideView>
@@ -183,6 +188,12 @@ export default class App extends React.Component {
           <QuestionText>
             {correctPercent > 70 ? 'PARABÉNS' : 'Tente de novo, você consegue!'}
           </QuestionText>
+          <CorrectButton onPress={this.onRePlay}>
+            <ButtonText>Recomeçar Jogo</ButtonText>
+          </CorrectButton>
+          <CancelBtn onPress={() => this.props.navigation.goBack()}>
+            <ButtonText>Voltar</ButtonText>
+          </CancelBtn>
         </InsideView>
       );
     } else
