@@ -66,7 +66,11 @@ export default class App extends React.Component {
   };
 
   onAddPress = () => {
-    if (!this.state.deckName || this.state.deckName.length > 15)
+    if (
+      !this.state.deckName ||
+      this.state.deckName.trim().length === 0 ||
+      this.state.deckName.length > 15
+    )
       return Alert.alert(
         'Campo Inválido',
         'O nome do baralho precisa ter entre 1 e 15 caracteres',
@@ -74,7 +78,7 @@ export default class App extends React.Component {
         { cancelable: true }
       );
 
-    saveDeckTitle(this.state.deckName)
+    saveDeckTitle(this.state.deckName.trim())
       .then(() => {
         this.props.navigation.state.params.onGoBack();
         this.props.navigation.goBack();
