@@ -79,7 +79,10 @@ export default class App extends React.Component {
 
   addDeck = () =>
     this.props.navigation.navigate('AddDeck', {
-      onGoBack: () => this.refresh()
+      onGoBack: deckName => {
+        this.openDeck(deckName);
+        this.refresh();
+      }
     });
 
   render = () => (

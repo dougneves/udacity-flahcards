@@ -80,8 +80,8 @@ export default class App extends React.Component {
 
     saveDeckTitle(this.state.deckName.trim())
       .then(() => {
-        this.props.navigation.state.params.onGoBack();
         this.props.navigation.goBack();
+        this.props.navigation.state.params.onGoBack(this.state.deckName.trim());
       })
       .catch(err =>
         Alert.alert('Erro', err.message, [{ text: 'OK' }], { cancelable: true })
