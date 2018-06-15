@@ -79,14 +79,22 @@ export default class App extends React.Component {
   };
 
   onAddPress = () => {
-    if (!this.state.pergunta || this.state.pergunta.length > 44)
+    if (
+      !this.state.pergunta ||
+      this.state.pergunta.trim().length === 0 ||
+      this.state.pergunta.length > 44
+    )
       return Alert.alert(
         'Campo Inválido',
         'A pergunta precisa ter entre 1 e 44 caracteres',
         [{ text: 'OK' }],
         { cancelable: true }
       );
-    if (!this.state.resposta || this.state.resposta.length > 144)
+    if (
+      !this.state.resposta ||
+      this.state.resposta.trim().length === 0 ||
+      this.state.resposta.length > 144
+    )
       return Alert.alert(
         'Campo Inválido',
         'A resposta precisa ter entre 1 e 144 caracteres',
@@ -95,7 +103,8 @@ export default class App extends React.Component {
       );
 
     addCardToDeck(this.props.navigation.state.params.title, {
-      ...this.state
+      pergunta: this.state.pergunta.trim(),
+      resposta: this.state.resposta.trim()
     })
       .then(() => {
         this.props.navigation.state.params.goBack();
