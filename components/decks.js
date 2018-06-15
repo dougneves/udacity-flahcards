@@ -62,7 +62,11 @@ export default class App extends React.Component {
     });
   };
 
-  openDeck = title => this.props.navigation.navigate('ViewDeck', { title });
+  openDeck = title =>
+    this.props.navigation.navigate('ViewDeck', {
+      title,
+      refresh: this.refresh
+    });
 
   renderList = list =>
     list.map((item, index) => {

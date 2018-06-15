@@ -1,5 +1,5 @@
 import React from 'react';
-import { AsyncStorage, TextInput, Alert } from 'react-native';
+import { AsyncStorage, Alert } from 'react-native';
 import styled from 'styled-components/native';
 import {
   getDecks,
@@ -12,6 +12,10 @@ const MainView = styled.View`
   flex: 1;
   background: #fff;
   align-items: center;
+`;
+
+const ScrollView = styled.ScrollView`
+  background: #fff;
 `;
 
 const Title = styled.Text`
@@ -127,28 +131,31 @@ export default class App extends React.Component {
   };
 
   render = () => (
-    <MainView>
-      <Title>
-        Adicionar carta ao baralho {this.props.navigation.state.params.title}
-      </Title>
-      <StyledTitle>Pergunta:</StyledTitle>
-      <PerguntaTxt
-        value={this.state.pergunta}
-        onChangeText={this.onPerguntaChanged}
-      />
-      <StyledTxtCount>{this.state.pergunta.length}/44</StyledTxtCount>
-      <StyledTitle>Resposta:</StyledTitle>
-      <RespostaTxt
-        value={this.state.resposta}
-        onChangeText={this.onRespostaChanged}
-      />
-      <StyledTxtCount>{this.state.resposta.length}/144</StyledTxtCount>
-      <AddBtn onPress={this.onAddPress}>
-        <AddBtnText>Criar</AddBtnText>
-      </AddBtn>
-      <CancelBtn onPress={this.onCancelPress}>
-        <CancelBtnText>Cancelar</CancelBtnText>
-      </CancelBtn>
-    </MainView>
+    <ScrollView>
+      <MainView>
+        <Title>
+          Adicionar carta ao baralho {this.props.navigation.state.params.title}
+        </Title>
+
+        <StyledTitle>Pergunta:</StyledTitle>
+        <PerguntaTxt
+          value={this.state.pergunta}
+          onChangeText={this.onPerguntaChanged}
+        />
+        <StyledTxtCount>{this.state.pergunta.length}/44</StyledTxtCount>
+        <StyledTitle>Resposta:</StyledTitle>
+        <RespostaTxt
+          value={this.state.resposta}
+          onChangeText={this.onRespostaChanged}
+        />
+        <StyledTxtCount>{this.state.resposta.length}/144</StyledTxtCount>
+        <AddBtn onPress={this.onAddPress}>
+          <AddBtnText>Criar</AddBtnText>
+        </AddBtn>
+        <CancelBtn onPress={this.onCancelPress}>
+          <CancelBtnText>Cancelar</CancelBtnText>
+        </CancelBtn>
+      </MainView>
+    </ScrollView>
   );
 }

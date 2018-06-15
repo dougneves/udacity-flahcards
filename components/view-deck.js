@@ -92,7 +92,10 @@ export default class App extends React.Component {
   addCard = () =>
     this.props.navigation.navigate('AddCard', {
       title: this.props.navigation.state.params.title,
-      goBack: () => this.refresh()
+      goBack: () => {
+        this.refresh();
+        this.props.navigation.state.params.refresh();
+      }
     });
   playDeck = () =>
     this.props.navigation.navigate('PlayDeck', {

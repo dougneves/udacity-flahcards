@@ -18,6 +18,11 @@ const MainView = styled.View`
   align-items: center;
 `;
 
+const ScrollView = styled.ScrollView`
+  flex: 1;
+  background: #fff;
+`;
+
 const InsideView = styled.View`
   flex: 1;
   background: #fff;
@@ -66,11 +71,15 @@ const ButtonText = styled.Text`
 const QuestionText = styled.Text`
   color: #339999;
   font-size: 24px;
+  margin: 5px;
+  text-align: center;
 `;
 
 const AnwserText = styled.Text`
   color: #333399;
   font-size: 24px;
+  margin: 5px;
+  text-align: center;
 `;
 
 const DeckNameTxt = styled.TextInput`
@@ -160,6 +169,11 @@ export default class App extends React.Component {
   );
   renderAnwser = anwser => (
     <InsideView>
+      <QuestionText>
+        {this.state.questions.length <= this.state.currentIndex
+          ? '...'
+          : this.state.questions[this.state.currentIndex].pergunta}
+      </QuestionText>
       <AnwserText>
         {this.state.questions.length <= this.state.currentIndex
           ? '...'
@@ -210,24 +224,27 @@ export default class App extends React.Component {
 
   render = () => {
     return (
-      <MainView>
-        <Title>{this.props.navigation.state.params.title}</Title>
-        <CardsCount>
-          {this.state.corrects}{' '}
-          {this.state.corrects === 1 ? 'acerto' : 'acertos'} e{' '}
-          {this.state.wrongs} {this.state.corrects === 1 ? 'erro' : 'erros'}
-        </CardsCount>
-        {this.state.questions.length > this.state.currentIndex && (
+      <ScrollView>
+        <MainView>
+          <Title>{this.props.navigation.state.params.title}</Title>
+
           <CardsCount>
-            Pergunta {this.state.currentIndex + 1} de {this.state.cardsCount}
+            {this.state.corrects}{' '}
+            {this.state.corrects === 1 ? 'acerto' : 'acertos'} e{' '}
+            {this.state.wrongs} {this.state.wrongs === 1 ? 'erro' : 'erros'}
           </CardsCount>
-        )}
-        {this.state.questions.length <= this.state.currentIndex
-          ? this.showResult()
-          : this.state.showQuestion
-            ? this.renderQuestion()
-            : this.renderAnwser()}
-      </MainView>
+          {this.state.questions.length > this.state.currentIndex && (
+            <CardsCount>
+              Pergunta {this.state.currentIndex + 1} de {this.state.cardsCount}
+            </CardsCount>
+          )}
+          {this.state.questions.length <= this.state.currentIndex
+            ? this.showResult()
+            : this.state.showQuestion
+              ? this.renderQuestion()
+              : this.renderAnwser()}
+        </MainView>
+      </ScrollView>
     );
   };
 }

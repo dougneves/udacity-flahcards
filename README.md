@@ -8,7 +8,7 @@ Some features of the app:
 * Users can add a card to a specific deck.
 * The front of the card display a question.
 * The back of the card display the answer.
-* User are able to test themself in a specific deck and receive a score when he completes the deck.
+* User are able to test himself in a specific deck and receive a score when he completes the deck.
 * User receive a notification to remind them to study if they did not do it on the current day.
 
 ### Compiling and running
